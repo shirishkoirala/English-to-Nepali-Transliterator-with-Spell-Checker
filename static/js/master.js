@@ -1,12 +1,12 @@
 $(function() {
   $('#word').keyup(function(e){
     var text = $(this).val();
-    if(e.which != 13 && e.which != 38 && e.which != 40){
+    if(e.which != 32 && e.which != 38 && e.which != 40 && e.which != 13){
       if(text != ''){
         $.ajax({
           url: 'words/',
           method: 'GET',
-          data:{search:text},
+          data:{search:text, limit:1},
           dataType: 'json',
           success:function(data){
             var result = "";
@@ -30,13 +30,8 @@ $(function() {
           $("#result").html(str + " ");
         }
       }
-    }else if(e.which == 13){
-      // var text = $('#suggestions a:first-child').attr('href');
-      // text = text.substring(1, text.length);
-      // $('#word').val("");
-      // $('#result').append(text + " ");
-      // $('#suggestions').html("");
-      // $('#info').html("");
+    }else if(e.which == 32){
+
     }
   });
 });
@@ -60,6 +55,7 @@ $(function(){
 $(document).keydown(function(e) {
     switch(e.which) {
         case 13:
+        case 32:
           var text = $(".list-group-item.active").attr('href');
           text = text.substring(1, text.length);
           $('#result').append(text + " ");
