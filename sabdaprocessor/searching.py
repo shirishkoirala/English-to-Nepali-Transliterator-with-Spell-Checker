@@ -1,23 +1,10 @@
 import time
-import os
 import json
 from sabdaprocessor import Transliterator
-from final_year_project import settings
-from sabdaprocessor import tries
 
 
-def main(word):
+def main(word, t):
     data = []
-    # file_set = set(line.strip() for line in open(os.path.join(settings.STATIC_DIR, "ne_NP_new.dic"), "r", encoding="utf8"))
-    #
-    # d = Transliterator.Transliterator(word).combine_tokens()
-    #
-    # for w in d:
-    #     if w in file_set:
-    #         data.append(w)
-    t = tries.Trie()
-    for line in open(os.path.join(settings.STATIC_DIR, "ne_NP_new.dic"), "r", encoding="utf8"):
-        t.add(line)
 
     d = Transliterator.Transliterator(word).combine_tokens()
 
