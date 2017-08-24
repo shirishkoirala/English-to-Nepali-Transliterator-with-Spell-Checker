@@ -3,7 +3,7 @@ import json
 from sabdaprocessor import Transliterator
 
 
-def main(word, t):
+def main(word, t, start, end):
     data = []
 
     d = Transliterator.Transliterator(word).combine_tokens()
@@ -13,13 +13,11 @@ def main(word, t):
             data.append(w)
 
     if len(data) <= 0:
-        for i in Transliterator.Transliterator._d.get(word[0]):
-            for word_from_trie in t.start_with_prefix(i):
-                for word_from_dict in d:
-                    if ld(word_from_dict, word_from_trie) <= 1:
-                        data.append(word_from_dict)
+        for word_from_transliterator in d:
+            data.append(word_from_transliterator)
 
-    return json.dumps(data)
+    return_data = {'results' : data[int(start):int(end)], 'total':len(data)}
+    return json.dumps(return_data)
 
 def transliterate(word):
     return json.dumps(Transliterator.Transliterator(word).get_filtered_combinations())
