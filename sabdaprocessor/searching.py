@@ -1,15 +1,29 @@
 import time
 import json
 from sabdaprocessor import Transliterator
+from sabdaprocessor import tries
+import os
+from final_year_project import settings
 
 
-def main(word, t, start, end):
+def main(word, t, user_trie, start, end):
     data = []
 
     d = Transliterator.Transliterator(word).combine_tokens()
 
+    user_trie = tries.Trie()
+    for line_from_user_dict in open(os.path.join(settings.STATIC_DIR, "user_dict.txt"), "r", encoding="utf8"):
+        splitted_line_from_user_dict = line_from_user_dict.split(' ')
+        user_trie.add(splitted_line_from_user_dict[1])
+
+
+
     for w in d:
-        if t.has_word(w+"\n"):
+        if(user_trie.has_word(w) and w not in data):
+            data.append(w)
+
+    for w in d:
+        if(t.has_word(w+"\n") and w not in data):
             data.append(w)
 
     if len(data) <= 0:
